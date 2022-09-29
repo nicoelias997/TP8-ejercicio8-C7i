@@ -1,9 +1,12 @@
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import Formulario from "./components/Formulario"
 
 function App() {
   return (
     <div>
-      <h1>Formulario simple - TP 8 - Ejercicio 8</h1>
+      <Formulario></Formulario>
     </div>
   );
 }
