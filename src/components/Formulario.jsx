@@ -17,8 +17,9 @@ const Formulario = () => {
 
   const [cliente, setCliente] = React.useState({})
 
-  const validarDatos =  () => {
-   
+  const validarDatos =  (e) => {
+    e.preventDefault()
+    e.stopPropagation()   
     if (
       validacionNombre(nombre) &&
       validacionApellido(apellido) &&
@@ -32,11 +33,6 @@ const Formulario = () => {
         email,
         dni
       })
-      setNombre("")
-      setApellido("")
-      setDni("")
-      setEmail("")
-      console.log(validar)
     } else {
       Swal.fire({
         icon: 'error',
@@ -46,9 +42,12 @@ const Formulario = () => {
       console.log("Mal");
       return;
     }
+    setNombre("")
+    setApellido("")
+    setDni("")
+    setEmail("")
+    return
   };
-
-  
 
   return (
     <Container fluid xs={12} sm={12} md={8}>
@@ -56,12 +55,13 @@ const Formulario = () => {
       <Form
         className="d-flex justify-content-center align-items-center"
         noValidate
+        onSubmit={validarDatos}
       >
         <Col xs={12} sm={12} md={6}>
           <Form.Group className="mb-2">
             <Form.Label>Nombre: </Form.Label>
             <Form.Control
-            onBlur={() => validacionNombre()}
+            onBlur={() => validacionNombre(nombre)}
               type="text"
               value={nombre}
               required
@@ -72,18 +72,19 @@ const Formulario = () => {
           <Form.Group className="mb-2">
             <Form.Label>Apellido: </Form.Label>
             <Form.Control
-            onBlur={() =>  validacionApellido()}
+            onBlur={() =>  validacionApellido(apellido)}
               type="text"
               value={apellido}
               required
               placeholder="Ingrese sus apellidos"
               onChange={(e) => setApellido(e.target.value)}
             ></Form.Control>
+
           </Form.Group>
           <Form.Group className="mb-2">
             <Form.Label>Email: </Form.Label>
             <Form.Control
-            onBlur={() => validacionEmail()}
+            onBlur={() => validacionEmail(email)}
               
               type="email"
               value={email}
@@ -95,7 +96,7 @@ const Formulario = () => {
           <Form.Group className="mb-2">
             <Form.Label>DNI: </Form.Label>
             <Form.Control
-            onBlur={() => validacionDni()}
+            onBlur={() => validacionDni(dni)}
               type="number"
               value={dni}
               required
@@ -106,8 +107,7 @@ const Formulario = () => {
           <Button
             className="mb-2 mt-2 float-end"
             variant="danger"
-            type="button"
-            onClick={validarDatos}
+            type="submit"
           >
             Enviar
           </Button>
