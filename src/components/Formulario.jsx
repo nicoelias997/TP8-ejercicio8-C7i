@@ -21,11 +21,16 @@ const Formulario = () => {
     e.preventDefault()
     e.stopPropagation()   
     if (
-      validacionNombre(nombre) &&
-      validacionApellido(apellido) &&
-      validacionDni(dni) &&
-      validacionEmail(email)
-    ) {
+      !validacionNombre(nombre) ||
+      !validacionApellido(apellido) ||
+      !validacionDni(dni) ||
+      !validacionEmail(email)
+    ) 
+    {
+    
+      return;
+      
+    } else {
       setValidar(true)
       setCliente({
         nombre,
@@ -33,20 +38,17 @@ const Formulario = () => {
         email,
         dni
       })
-    } else {
       Swal.fire({
-        icon: 'error',
-        title: 'Algo salio mal!',
-        text: 'Completa todos los campos!',
+        icon: 'success',
+        title: `Felicidades`, 
+        text: `Te inscribiste correctamente, ${cliente.nombre}`,
+        footer: 'A continuacion podras ver tu informacion...'
       })
-      console.log("Mal");
-      return;
     }
     setNombre("")
     setApellido("")
     setDni("")
     setEmail("")
-    return
   };
 
   return (
@@ -61,7 +63,6 @@ const Formulario = () => {
           <Form.Group className="mb-2">
             <Form.Label>Nombre: </Form.Label>
             <Form.Control
-            onBlur={() => validacionNombre(nombre)}
               type="text"
               value={nombre}
               required
@@ -72,7 +73,6 @@ const Formulario = () => {
           <Form.Group className="mb-2">
             <Form.Label>Apellido: </Form.Label>
             <Form.Control
-            onBlur={() =>  validacionApellido(apellido)}
               type="text"
               value={apellido}
               required
@@ -84,7 +84,6 @@ const Formulario = () => {
           <Form.Group className="mb-2">
             <Form.Label>Email: </Form.Label>
             <Form.Control
-            onBlur={() => validacionEmail(email)}
               
               type="email"
               value={email}
@@ -96,7 +95,6 @@ const Formulario = () => {
           <Form.Group className="mb-2">
             <Form.Label>DNI: </Form.Label>
             <Form.Control
-            onBlur={() => validacionDni(dni)}
               type="number"
               value={dni}
               required
